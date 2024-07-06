@@ -24,6 +24,7 @@ public class AmazonS3Manager {
     private final UuidRepository uuidRepository;
 
     public String uploadFile(String keyName, MultipartFile file) {
+
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
         try {

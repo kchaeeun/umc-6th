@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 public class AmazonConfig {
 
+
     private AWSCredentials awsCredentials;
 
     @Value("${cloud.aws.credentials.accessKey}")
@@ -24,18 +25,20 @@ public class AmazonConfig {
     @Value("${cloud.aws.region.static}")
     private String region;
 
-    @Value(("${cloud.aws.s3.bucket}"))
+    @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
     @Value("${cloud.aws.s3.path.review}")
     private String reviewPath;
 
     @PostConstruct
-    public void init() { this.awsCredentials = new BasicAWSCredentials(accessKey, secretKey);}
+    public void init() {
+        this.awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
+    }
 
     @Bean
     public AmazonS3 amazonS3() {
-        AWSCredentials awsCredentials1 = new BasicAWSCredentials(accessKey, secretKey);
+        AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
         return AmazonS3ClientBuilder.standard()
                 .withRegion(region)
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
@@ -43,5 +46,8 @@ public class AmazonConfig {
     }
 
     @Bean
-    public AWSCredentialsProvider awsCredentialsProvider() { return new AWSStaticCredentialsProvider(awsCredentials);}
+    public AWSCredentialsProvider awsCredentialsProvider() {
+        return new AWSStaticCredentialsProvider(awsCredentials);
+    }
 }
+

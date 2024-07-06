@@ -3,6 +3,7 @@ package umc.study.service.StoreService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import umc.study.aws.s3.AmazonS3Manager;
 import umc.study.converter.ReviewConverter;
 import umc.study.converter.StoreConverter;
@@ -30,23 +31,22 @@ public class StoreCommandServiceImpl implements StoreCommandService{
 
     private final ReviewImageRepository reviewImageRepository;
 
-
-
     @Override
-    public Review createReview(Long memberId, Long storeId, StoreRequestDTO.ReviewDTO request) {
+    public Review createReview(Long memberId, Long storeId, StoreRequestDTO.ReviewDTO request, MultipartFile reviewPicture) {
 
         Review review = StoreConverter.toReview(request);
 
         String uuid = UUID.randomUUID().toString();
         Uuid savedUuid = uuidRepository.save(Uuid.builder()
-                        .uuid(uuid).build());
+                .uuid(uuid).build());
 
-        String pictureUrl = s3Manager.uploadFile(s3Manager.generateReviewKeyName(savedUuid), request.getReviewPicture());
+        String pictureUrl = s3Manager.uploadFile(s3Manager.generateReviewKeyName(savedUuid), reviewPicture);
 
         review.setMember(memberRepository.findById(memberId).get());
         review.setStore(storeRepository.findById(storeId).get());
 
-        reviewImageRepository.save(ReviewConverter.toReviewImage(pictureUrl, review));
+
+        reviewImageRepository.save(ReviewConverter.toReviewImage(pictureUrl,review));
         return reviewRepository.save(review);
     }
 }
