@@ -8,10 +8,12 @@ import umc.study.aws.s3.AmazonS3Manager;
 import umc.study.converter.ReviewConverter;
 import umc.study.converter.StoreConverter;
 import umc.study.domain.Review;
+import umc.study.domain.ReviewImage;
 import umc.study.domain.Uuid;
 import umc.study.repository.*;
 import umc.study.web.dto.StoreRequestDTO;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -49,4 +51,19 @@ public class StoreCommandServiceImpl implements StoreCommandService{
         reviewImageRepository.save(ReviewConverter.toReviewImage(pictureUrl,review));
         return reviewRepository.save(review);
     }
+
+    @Override
+    public void deleteReviewImage(Long reviewImageId) {
+        Optional<ReviewImage> optionalReviewImage = reviewImageRepository.findById(reviewImageId);
+        if (optionalReviewImage.isPresent()) {
+            ReviewImage reviewImage = optionalReviewImage.get();
+
+            s3Manager.deleteFile(reviewImage.getImageUrl());
+
+            reviewImageRepository.delete(reviewImage);
+        } else {
+            throw new IllegalArgumentException("Review Image with id " + reviewImageId + "not found");
+        }
+    }
+
 }

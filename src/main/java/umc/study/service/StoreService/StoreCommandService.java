@@ -7,4 +7,6 @@ import umc.study.web.dto.StoreRequestDTO;
 public interface StoreCommandService {
 
     Review createReview(Long memberId, Long storeId, StoreRequestDTO.ReviewDTO request, MultipartFile reviewPart);
+
+    void deleteReviewImage(Long reviewImageId);
 }

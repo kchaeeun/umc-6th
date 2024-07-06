@@ -38,11 +38,27 @@ public class ReviewController {
             @Parameter(name = "storeId", description = "가게의 아이디, path variable 입니다!"),
             @Parameter(name = "memberId", description = "멤버의 아이디, query string 입니다!"),
     })
-    public ApiResponse<StoreResponseDTO.CreateReviewResultDTO> createReview(@RequestPart(name = "request") StoreRequestDTO.ReviewDTO request,
+    public ApiResponse<StoreResponseDTO.CreateReviewResultDTO> createReview(@RequestPart(name = "request") @Valid StoreRequestDTO.ReviewDTO request,
                                                                             @RequestPart(name = "reviewPicture") MultipartFile reviewPicture,
                                                                             @ExistStore @PathVariable(name = "storeId") Long storeId,
                                                                             @ExistMember @RequestParam(name = "memberId") Long memberId){
         Review review = storeCommandService.createReview(memberId, storeId, request, reviewPicture);
         return ApiResponse.onSuccess(StoreConverter.toCreateReviewResultDTO(review));
+    }
+
+    @DeleteMapping(value = "/{reviewImageId}/reviews")
+    @Operation(summary = "특정 가게의 리뷰 이미지 삭제 API",description = "특정 가게에 리뷰 이미지를 삭제하는 API")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200",description = "OK, 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH003", description = "access 토큰을 주세요!",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH004", description = "acess 토큰 만료",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH006", description = "acess 토큰 모양이 이상함",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+    })
+    @Parameters({
+            @Parameter(name = "reviewImageId", description = "리뷰 이미지의 아이디, path variable 입니다!"),
+    })
+    public ApiResponse<String> deleteReviewImage(@PathVariable(name = "reviewImageId") Long reviewImageId) {
+        storeCommandService.deleteReviewImage(reviewImageId);
+        return ApiResponse.onSuccess("리뷰 이미지 삭제 성공");
     }
 }
