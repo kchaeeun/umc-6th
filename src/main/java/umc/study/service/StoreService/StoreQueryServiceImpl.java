@@ -11,7 +11,7 @@ import umc.study.repository.MemberRepository;
 import umc.study.repository.ReviewRepository;
 import umc.study.repository.StoreRepository;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -32,19 +32,19 @@ public class StoreQueryServiceImpl implements StoreQueryService {
         return memberRepository.findById(id);
     }
 
-    @Override
-    public Page<Review> getReviewList(Long StoreId, Integer page) {
-        Store store = storeRepository.findById(StoreId).get();
-        Page<Review> StorePage = reviewRepository.findAllByStore(store, PageRequest.of(page, 10));
-        return StorePage;
-    }
-
-    @Override
-    public Page<Review> getMyReviewList(Long StoreId, Long MemberId, Integer page) {
-        Store store = storeRepository.findById(StoreId).get();
-        Member member = memberRepository.findById(MemberId).get();
-        Page<Review> StoreMyPage = reviewRepository.findMyAllByStore(store, member, PageRequest.of(page,10));
-
-        return StoreMyPage;
-    }
+//    @Override
+//    public Page<Review> getReviewList(Long StoreId, Integer page) {
+//        Store store = storeRepository.findById(StoreId).get();
+//        Page<Review> StorePage = reviewRepository.findAllByStore(store, PageRequest.of(page, 10));
+//        return StorePage;
+//    }
+//
+//    @Override
+//    public Page<Review> getMyReviewList(Long StoreId, Long MemberId, Integer page) {
+//        Store store = storeRepository.findById(StoreId).get();
+//        Member member = memberRepository.findById(MemberId).get();
+//        Page<Review> StoreMyPage = reviewRepository.findMyAllByStore(store, member, PageRequest.of(page,10));
+//
+//        return StoreMyPage;
+//    }
 }

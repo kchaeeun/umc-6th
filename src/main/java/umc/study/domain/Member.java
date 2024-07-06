@@ -34,16 +34,16 @@ public class Member extends BaseEntity {    // createdDate, updatedDate 상속
     @Column(nullable = false, length = 40)      // 단순 입력 데이터의 경우 세부 설정
     private String specAddress;
 
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(10)")   // enum의 경우의 길이 세부 설정 
-    private Gender gender;
-
-    @Enumerated(EnumType.STRING)
-    private SocialType socialType;
-
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(15) DEFAULT 'ACTIVE'")
-    private MemberStatus status;
+//    @Enumerated(EnumType.STRING)
+//    @Column(columnDefinition = "VARCHAR(10)")   // enum의 경우의 길이 세부 설정
+//    private Gender gender;
+//
+//    @Enumerated(EnumType.STRING)
+//    private SocialType socialType;
+//
+//    @Enumerated(EnumType.STRING)
+//    @Column(columnDefinition = "VARCHAR(15) DEFAULT 'ACTIVE'")
+//    private MemberStatus status;
 
     private LocalDate inactiveDate;
 
@@ -53,15 +53,15 @@ public class Member extends BaseEntity {    // createdDate, updatedDate 상속
     @ColumnDefault("0")
     private Integer point;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<MemberAgree> memberAgreeList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<MemberPrefer> memberPreferList = new ArrayList<>();
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+//    private List<MemberAgree> memberAgreeList = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+//    private List<MemberPrefer> memberPreferList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<MemberMission> memberMissionList = new ArrayList<>();
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+//    private List<MemberMission> memberMissionList = new ArrayList<>();
 }

@@ -1,4 +1,7 @@
 package umc.study.repository;
 
-public interface UuidRepository extends JpaRep{
+import org.springframework.data.jpa.repository.JpaRepository;
+import umc.study.domain.Uuid;
+
+public interface UuidRepository extends JpaRepository<Uuid, Long> {
 }

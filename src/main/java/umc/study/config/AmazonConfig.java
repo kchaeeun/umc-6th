@@ -24,7 +24,7 @@ public class AmazonConfig {
     @Value("${cloud.aws.region.static}")
     private String region;
 
-    @Value(("${cloud.aws.s3.bucket"))
+    @Value(("${cloud.aws.s3.bucket}"))
     private String bucket;
 
     @Value("${cloud.aws.s3.path.review}")
@@ -35,10 +35,10 @@ public class AmazonConfig {
 
     @Bean
     public AmazonS3 amazonS3() {
-        AWSCredentials awsCredentials1 = new BasicSessionCredentials(accessKey, secretKey);
+        AWSCredentials awsCredentials1 = new BasicAWSCredentials(accessKey, secretKey);
         return AmazonS3ClientBuilder.standard()
                 .withRegion(region)
-                .withCredentials(new AWSCredentialsProvider(awsCredentials))
+                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .build();
     }
 
