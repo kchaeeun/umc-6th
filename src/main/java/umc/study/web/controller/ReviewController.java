@@ -38,8 +38,7 @@ public class ReviewController {
             @Parameter(name = "storeId", description = "가게의 아이디, path variable 입니다!"),
             @Parameter(name = "memberId", description = "멤버의 아이디, query string 입니다!"),
     })
-    public ApiResponse<StoreResponseDTO.CreateReviewResultDTO> createReview(@RequestPart @Valid StoreRequestDTO.ReviewDTO request,
-                                                                            @RequestPart(value = "file", required = false) MultipartFile file,
+    public ApiResponse<StoreResponseDTO.CreateReviewResultDTO> createReview(@ModelAttribute @Valid StoreRequestDTO.ReviewDTO request,
                                                                             @ExistStore @PathVariable(name = "storeId") Long storeId,
                                                                             @ExistMember @RequestParam(name = "memberId") Long memberId){
         Review review = storeCommandService.createReview(memberId, storeId, request);

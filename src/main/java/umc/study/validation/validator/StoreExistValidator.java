@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class StoreExistValidator implements ConstraintValidator<ExistStore, List<Long>> {
+public class StoreExistValidator implements ConstraintValidator<ExistStore, Long> {
     final private StoreRepository storeRepository;
 
     @Override
@@ -23,15 +23,14 @@ public class StoreExistValidator implements ConstraintValidator<ExistStore, List
 
     // 여기만 바꿔주면 됨
     @Override
-    public boolean isValid(List<Long> values, ConstraintValidatorContext context) {
-        boolean isValid = values.stream()
-                .allMatch(storeRepository::existsById);
+    public boolean isValid(Long value, ConstraintValidatorContext context) {
+        boolean exists = storeRepository.existsById(value);
 
-        if (!isValid) {
+        if (!exists) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(ErrorStatus.STORE_NOT_FOUND.toString()).addConstraintViolation();
         }
 
-        return isValid;
+        return exists;
     }
 }
